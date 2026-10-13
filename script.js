@@ -28,46 +28,55 @@ function getHumanChoice() {
     }
 }
 
+let humanChoice = 0;
 let humanScore = 0;
 let computerScore = 0;
+const buttons = document.querySelector(".buttons")
+const gameChoice = document.querySelector(".computer-choice")
+const score = document.querySelector(".score")
 
 function playRound(humanChoice, computerChoice) {
     console.log(computerChoice)
+    let result; 
     if (humanChoice === 2 && computerChoice === 0) {
         computerScore += 1;
+        result = "Computer wins!"
     }  
     else if (humanChoice === 0 && computerChoice === 2) {
         humanScore += 1;
+        result = "Human wins!"
     } 
 
     else if (humanChoice === computerChoice) {
-        return;
+        result = "Draw!"
     }
     else if (humanChoice > computerChoice) {
         humanScore += 1;
-
+        result = "Human wins!";
    
     }
     else if (humanChoice < computerChoice) {
         computerScore += 1;
+        result = "Computer wins!"
     }
+    gameChoice.textContent = `Computer chooses: ${translateComputer(computerChoice)}. ${result}`
+    score.textContent = `Human score: ${humanScore}, Computer score: ${computerScore}`
 }
 
-for (i = 0; i < 5; i++) {
-    let computerChoice = getComputerChoice()
-    playRound(getHumanChoice(), (computerChoice))
-    alert(`Computer chooses: ${translateComputer(computerChoice)} `)
-    alert(`Human score: ${humanScore}, Computer score: ${computerScore}`)
-}
-
-// rock beats scissors
-// scissors beat paper
-// paper beats rock
-
-// rock (0), paper (1), scissors (2)
-// if n < a, a win except 
-
-// paper beats rock
-// scissors beat paper
-// rock beats scissor
-
+buttons.addEventListener("click", (event) => {
+    event.preventDefault();
+    console.log("click")
+    let target = event.target;
+    switch (target.id) {
+        case "rock":
+            humanChoice = 0;
+            break;
+        case "paper":
+            humanChoice = 1;
+            break;
+        case "scissors":
+            humanChoice = 2;
+            break;
+    }
+    playRound(humanChoice, getComputerChoice())
+})
